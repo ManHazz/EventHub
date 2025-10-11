@@ -6,12 +6,13 @@ import { connectDB } from './config/db.js';
 dotenv.config();
 const app = express();
 
-// Middleware
+// middleware
 app.use(cors());
 app.use(express.json());
 
 //routes
 app.use('/api/users', userRoutes);
+app.use('/api/events', eventRoutes);
 
 connectDB().then(() => {
     app.listen(process.env.PORT || 5000, () => {
