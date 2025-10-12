@@ -93,14 +93,19 @@ export const getAllUserProfile = async (req, res) => {
     }
 };
 
+// ...existing code...
 export const updateUserProfile = async(req, res) => {
     try {
+        if (req.user.id !== req.params.id && req.user.role !== 'admin') {
+            return res.status(403).json({ message: "Forbidden: You can only update your own profile" });
+        }
+
         const user = await User.findById (req.params.id);
         if(!user) {
             return res.status(404).json({message: "User not found"});
         }
 
-        const {name, email, password, confirmPassword,status} = req.body;
+        const {name, email, password, confirmPassword, status, role} = req.body;
 
         if(password && password !== confirmPassword) {
             return res.status(400).json({message: "Passwords do not match"});
@@ -111,14 +116,27 @@ export const updateUserProfile = async(req, res) => {
         if(password) {
             user.password = password;
         }
-        user.role = role || user.role;
-        user.status = status || user.status;
+        
+        if (req.user.role === 'admin') {
+            if (role) user.role = role;
+            if (status) user.status = status;
+        }
 
-        await user.save();
+        const updatedUser = await user.save();
 
-        res.status(200).json({message: "User profile updated successfully"});
+        res.status(200).json({
+            message: "User profile updated successfully",
+            user: {
+                id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                role: updatedUser.role,
+                status: updatedUser.status
+            }
+        });
         
     } catch (error) {
+        console.error(error); // Log the actual error for debugging
         res.status(500).json({message: "Internal server error"});
     }
 }

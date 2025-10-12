@@ -14,7 +14,6 @@ const createAdminAccount = async () => {
         const adminEmail = 'admin@eventhub.com';
         const adminPassword = 'aVeryStrongPassword123!';
         const adminName = 'Administrator';
-        // ------------------------------------
 
         const adminExists = await User.findOne({ email: adminEmail });
 

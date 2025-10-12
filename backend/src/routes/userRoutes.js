@@ -8,7 +8,7 @@ router.post('/register', registerUser); //register user
 router.post('/login',loginUser); //login user
 router.get('/profile', protect, getUserProfile); //get user profile
 router.get('/allProfile', protect, getAllUserProfile); //get all user profile (for admin)
-router.put('/profile/:id', protect, updateUserProfile); //update user profile
-router.delete('/profile/:id', protect, deleteUser); //delete user
+router.put('/:id', protect, updateUserProfile); //update user profile
+router.delete('/:id', protect, deleteUser); //delete user
 
 export default router;
