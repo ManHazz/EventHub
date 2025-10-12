@@ -1,4 +1,5 @@
 import Event from '../models/event.js';
+import User from '../models/user.js';
 
 export const createEvent = (req, res) => {
     try {
