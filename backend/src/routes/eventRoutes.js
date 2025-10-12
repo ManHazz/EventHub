@@ -5,7 +5,7 @@ import { createEvent, getUserEvents, getAllEvents, deleteEvent, updateEvent, get
 const router = express.Router();
 
 router.post('/create', createEvent); //create event
-router.get('/userEvents/:id', getUserEvents); //get all events for a user(user dashboard)
+router.get('/userEvents', getUserEvents); //get all events for a user(user dashboard)
 router.get('/allEvents', getAllEvents); //get all events(admin dashboard)
 router.get('/allBookings', getAllBookings); //get all bookings (admin dashboard)
 router.delete('/delete/:id', deleteEvent); //delete event

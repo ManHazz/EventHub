@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const eventSchema = new mongoose.Schema({
     bookingId: {type:String},
     name: {type:String},
-    desccription: {type:String},
+    description: {type:String},
     date: {type:Date},
     time: {type:String},
     location: {type:String},

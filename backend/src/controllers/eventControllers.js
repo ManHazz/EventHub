@@ -3,9 +3,8 @@ import User from '../models/user.js';
 
 export const createEvent = async (req, res) => {
     try {
-        const {bookingId, name, description, date, time, location, price, totalSeats} = req.body;
+        const { name, description, date, time, location, price, totalSeats } = req.body;
         const event = new Event({
-            bookingId,
             name,
             description,
             date,
@@ -23,12 +22,11 @@ export const createEvent = async (req, res) => {
 
 export const getUserEvents = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate("bookedEvents");
+        const user = await User.findById(req.user.id).populate("bookedEvents");
         if(!user) {
             return res.status(404).json({message: "User not found"});
         }
-        const events = await Event.find({bookingId: user.bookingId});
-        res.status(200).json(events);
+        res.status(200).json(user.bookedEvents);
 
     } catch (error) {
         res.status(500).json({message: "Internal server error"});
@@ -85,7 +83,7 @@ export const updateEvent = async (req, res) => {
 
         await event.save();
         res.status(200).json({ message: "Event updated successfully", event });
-        
+
     } catch (error) {
         res.status(500).json({ message: "Internal server error" });
     }
